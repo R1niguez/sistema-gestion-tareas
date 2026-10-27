@@ -50,3 +50,18 @@ npm run build -- --configuration production
 
 La especificación y los artefactos SDD están en `specs/`. El pipeline de CI está
 en `.github/workflows/ci.yml`.
+
+## Flujo de trabajo con GitHub
+
+Las funcionalidades se desarrollan en ramas `feature/*` y se integran en
+`main` mediante Pull Requests. Antes de solicitar una revisión, el cambio debe
+pasar las verificaciones locales y el workflow de GitHub Actions:
+
+```bash
+git checkout -b feature/nombre-del-cambio
+git add .
+git commit -m "feat: describir el cambio"
+git push -u origin feature/nombre-del-cambio
+```
+
+El archivo `backend/.env` contiene configuración local y no debe publicarse.
