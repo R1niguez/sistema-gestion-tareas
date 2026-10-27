@@ -1,0 +1,206 @@
+Modelo moderno de desarrollo de software con control de versiones, DevOps, Spec Driven Development e inteligencia artificial: propuesta para una empresa de software en Ecuador
+Autores: [Rodrigo Joel Iñiguez Herrera] y [Luis Jafed Palacios Velepucha]
+Asignatura: Programación Móvil · Docente: [Joffre Jeorwin Cartuche Calva]
+Institución: [Universidad Técnica de Machala] · Fecha: [Semana 7, 2026]
+Contenido
+Modelo moderno de desarrollo de software con control de versiones, DevOps, Spec Driven Development e inteligencia artificial: propuesta para una empresa de software en Ecuador	1
+Introducción	2
+Desarrollo de temas	2
+Bloque 1: Control de versiones	2
+Bloque 2: Trabajo colaborativo	4
+Bloque 3: Desarrollo basado en especificaciones	4
+Bloque 4: DevOps	5
+Bloque 5: Inteligencia artificial aplicada al desarrollo	6
+Bloque 6: Calidad de software	7
+Bloque 7: Gestión del proyecto	7
+Análisis crítico	8
+Propuesta de solución para la empresa	9
+Fase 1: Fundamentos (semanas 1–2)	9
+Fase 2: Colaboración y calidad (semanas 3–4)	9
+Fase 3: Automatización DevOps (semanas 5–6)	9
+Fase 4: SDD e inteligencia artificial (semanas 7–8)	9
+Flujo de trabajo propuesto	10
+Indicadores de éxito	10
+Aplicación en el contexto ecuatoriano	10
+Actividad práctica realizada	10
+Reflexión final	11
+Conclusiones	11
+Referencias	12
+
+Introducción
+El desarrollo de software profesional ya no consiste solo en escribir código que funcione. Un producto de calidad exige que varias personas trabajen sobre la misma base de código sin pisarse, que cada cambio quede registrado y pueda revisarse, que las pruebas se ejecuten de forma automática y que lo que se construye responda a requisitos claros. Cuando estas prácticas faltan, aparecen los síntomas que describe el caso de estudio: pérdida de versiones, desorden en el equipo, errores en producción, ausencia de documentación y nula automatización.
+Este informe analiza la situación de una empresa de desarrollo de software ecuatoriana que presenta esos cinco problemas y propone un modelo de trabajo basado en herramientas modernas: Git y GitHub para el control de versiones y la colaboración, GitHub Actions para la integración y entrega continuas, GitHub Copilot como asistente de inteligencia artificial, y Spec Driven Development (SDD) apoyado en GitHub Spec Kit para guiar el desarrollo desde especificaciones.
+El documento se organiza en siete bloques temáticos (control de versiones, trabajo colaborativo, desarrollo basado en especificaciones, DevOps, inteligencia artificial, calidad de software y gestión del proyecto), seguidos de un análisis crítico, una propuesta de solución con plan de implementación, la descripción de la práctica realizada, la reflexión final y las conclusiones.
+Objetivo general: diseñar una propuesta tecnológica que resuelva los problemas de proceso de la empresa mediante buenas prácticas, automatización e inteligencia artificial.
+Objetivos específicos:
+1. Analizar los fundamentos de control de versiones, colaboración, SDD, DevOps, IA y calidad aplicables al caso.
+2. Relacionar cada problema de la empresa con una práctica o herramienta concreta que lo mitigue.
+3. Demostrar la propuesta con un proyecto práctico en GitHub (aplicación Angular con base de datos, ramas, Pull Requests y un pipeline de GitHub Actions).
+Desarrollo de temas
+Bloque 1: Control de versiones
+Qué es y qué problema resuelve. Un sistema de control de versiones registra los cambios de un conjunto de archivos a lo largo del tiempo para poder recuperar versiones anteriores, comparar cambios y saber quién modificó qué y por qué. Git es un sistema distribuido: cada desarrollador tiene una copia completa del repositorio con todo su historial, lo que permite trabajar sin conexión y hace que no exista un único punto de fallo (Chacon y Straub, 2014). Esto responde directamente al problema de la pérdida de versiones del código.
+Conceptos avanzados. Más allá de commit, push y pull, un equipo profesional debería dominar:
+• Ramas (branches): punteros ligeros a commits que permiten trabajar en paralelo en funcionalidades o correcciones sin afectar la rama principal.
+• Merge frente a rebase: merge une dos historiales creando un commit de fusión y preserva la historia real; rebase reaplica los commits sobre otra base y produce un historial lineal. Regla práctica: no reescribir historial que ya fue publicado y compartido.
+• Stash: guarda temporalmente cambios sin confirmar para cambiar de rama.
+• Cherry-pick: aplica un commit específico en otra rama; útil para llevar una corrección urgente a varias versiones.
+• Reset y revert: reset mueve la rama a otro punto (reescribe historia); revert crea un commit que deshace otro de forma segura, y es preferible en ramas compartidas.
+• Reflog: bitácora local de los movimientos de HEAD que permite recuperar commits aparentemente perdidos.
+• Bisect: búsqueda binaria del commit que introdujo un error.
+• Etiquetas (tags): marcan versiones liberadas (por ejemplo, v1.2.0), alineadas con el versionado semántico.
+• Resolución de conflictos: ocurre cuando dos ramas modifican las mismas líneas; se resuelve manualmente y se confirma.
+• Convención de mensajes de commit: por ejemplo Conventional Commits (feat, fix, docs, test, chore), que facilita leer el historial y automatizar versiones y registros de cambios.
+Flujos de trabajo: Git Flow frente a Trunk Based Development.
+Git Flow fue propuesto por Driessen (2010) y define ramas de larga vida: main (producción), develop (integración), y ramas de apoyo feature/*, release/* y hotfix/*. Ofrece orden y control para productos con versiones explícitas y ciclos de liberación planificados, pero introduce ramas longevas, fusiones grandes y más probabilidad de conflictos.
+Trunk Based Development propone que todos integren cambios pequeños y frecuentes en una única rama troncal (main), usando ramas de vida muy corta (horas o pocos días) y, cuando una funcionalidad no está terminada, feature flags para ocultarla en producción. Requiere pruebas automáticas sólidas y una cultura de integración continua (Hammant, s. f.). Es el flujo asociado con equipos de alto desempeño (Forsgren et al., 2018).
+CriterioGit FlowTrunk BasedRamas principalesmain, develop, release, hotfixmain (troncal)Vida de las ramasLargaMuy cortaIntegraciónPor lotes, al cerrar la funcionalidadContinua, varias veces al díaRiesgo de conflictosMayorMenorRequisito claveDisciplina de ramasPruebas automáticas y feature flagsIdeal paraVersiones planificadas, software instalableEntrega continua, aplicaciones web y serviciosValoración. Para un equipo que parte de cero en prácticas, se recomienda un enfoque híbrido y simplificado: una rama main protegida, ramas cortas feature/* y fix/* que se integran mediante Pull Request, y etiquetas para las versiones. Es decir, un flujo cercano a Trunk Based (a veces llamado GitHub Flow) que evita la complejidad de Git Flow completo.
+Bloque 2: Trabajo colaborativo
+GitHub. GitHub es una plataforma que aloja repositorios Git y añade herramientas de colaboración: Issues, Pull Requests, Projects, Actions, control de acceso, gestión de seguridad y asistentes de IA (GitHub, s. f.-a). Para una empresa, aporta un lugar único donde viven el código, la discusión y la automatización. Funciones relevantes: organizaciones y equipos con permisos por rol, branch protection rules o rulesets (impiden subir directamente a main, exigen revisiones y que pasen las verificaciones), archivo CODEOWNERS (asigna revisores automáticos según la carpeta), plantillas de Issues y de Pull Requests, y archivos de comunidad como README.md, CONTRIBUTING.md y LICENSE.
+Pull Requests (PR). Un PR es una propuesta para integrar los cambios de una rama en otra. Reúne la descripción del cambio, la diferencia de código, la conversación, las verificaciones automáticas y la aprobación. Buenas prácticas: PR pequeños y enfocados (idealmente de pocas centenas de líneas), título y descripción claros, enlace al Issue que resuelven (por ejemplo, Closes #12), pruebas incluidas y, si hay cambios visuales, capturas de pantalla.
+Code Review. La revisión de código mejora la calidad y, además, difunde conocimiento dentro del equipo. Un estudio en Microsoft encontró que sus beneficios van más allá de detectar defectos: también incluyen transferencia de conocimiento, mayor conciencia del equipo y alternativas de solución (Bacchelli y Bird, 2013). Una revisión efectiva evalúa: corrección funcional, legibilidad, pruebas, seguridad, rendimiento y coherencia con las especificaciones. El tono debe ser constructivo: se critica el código, no a la persona. Se recomienda definir un tiempo máximo de respuesta (por ejemplo, 24 horas) para que las revisiones no bloqueen al equipo.
+Bloque 3: Desarrollo basado en especificaciones
+Spec Driven Development (SDD). SDD invierte la relación habitual entre especificación y código: en lugar de que la documentación sea un producto secundario que se desactualiza, la especificación se vuelve el artefacto central y ejecutable del que se derivan el plan técnico, las tareas y el código (Spec Driven AI, s. f.). El desarrollador describe qué debe hacer el sistema y por qué; luego se define cómo se construirá; y recién después se implementa. Este enfoque cobra especial valor con asistentes de IA, porque un modelo con una especificación clara genera código mucho más alineado que con instrucciones vagas (el llamado vibe coding). SDD ataca de raíz el problema de la falta de documentación técnica: la documentación no es una tarea posterior, sino el punto de partida y el hilo conductor del proyecto.
+Ciclo típico de SDD:
+1. Principios del proyecto: reglas no negociables (estándares de código, pruebas obligatorias, seguridad).
+2. Especificación: historias de usuario, requisitos funcionales y no funcionales, criterios de aceptación, sin decidir aún la tecnología.
+3. Aclaración: se detectan y resuelven ambigüedades antes de programar.
+4. Plan técnico: arquitectura, tecnologías, modelo de datos, contratos de API.
+5. Tareas: lista ordenada, pequeña y verificable.
+6. Implementación: se ejecutan las tareas, con apoyo de IA y pruebas.
+GitHub Spec Kit. Es un kit de herramientas de código abierto publicado por GitHub que implementa este ciclo. Incluye una interfaz de línea de comandos (Specify CLI) que inicializa el proyecto con plantillas y scripts, y comandos para el agente de IA que guían cada fase (GitHub, s. f.-b). Los comandos principales son:
+ComandoFunción/speckit.constitutionDefine los principios y reglas del proyecto/speckit.specifyCrea la especificación a partir de una descripción en lenguaje natural/speckit.clarifyResuelve ambigüedades de la especificación/speckit.planGenera el plan técnico con la pila tecnológica elegida/speckit.tasksDescompone el plan en tareas ejecutables/speckit.analyzeVerifica la consistencia entre especificación, plan y tareas/speckit.implementEjecuta las tareas para construir la soluciónNota: los nombres exactos de los comandos y su instalación pueden variar entre versiones del kit; deben verificarse en el repositorio oficial al momento de la práctica.
+Los artefactos resultantes (constitución, spec.md, plan.md, tasks.md) se guardan en el repositorio, versionados con Git. De este modo, las especificaciones pasan por los mismos Pull Requests y revisiones que el código.
+Bloque 4: DevOps
+DevOps es una cultura y un conjunto de prácticas que integran desarrollo y operaciones para entregar software de forma más rápida, frecuente y confiable. La investigación de Forsgren et al. (2018) muestra que las organizaciones con mejores prácticas de entrega (integración continua, automatización de pruebas y despliegues, control de versiones, arquitectura desacoplada) logran simultáneamente mayor velocidad y mayor estabilidad; no es necesario sacrificar una por la otra. Sus cuatro métricas clave (frecuencia de despliegue, tiempo de entrega de cambios, tasa de fallos en cambios y tiempo de recuperación) sirven para medir si la empresa mejora.
+CI/CD.
+• Integración Continua (CI): cada cambio se integra frecuentemente en la rama compartida y dispara automáticamente la compilación y las pruebas, de modo que los errores se detectan en minutos y no en producción (Fowler, 2006).
+• Entrega Continua (CD, Delivery): el software siempre está en un estado desplegable; el paso a producción es una decisión de negocio, a menudo con aprobación manual.
+• Despliegue Continuo (Deployment): cada cambio que pasa todas las pruebas se despliega automáticamente (Humble y Farley, 2010).
+GitHub Actions. Es el motor de automatización de GitHub. Los flujos de trabajo (workflows) se definen en archivos YAML dentro de .github/workflows/ y se componen de: eventos que los disparan (push, pull_request, schedule, workflow_dispatch), trabajos (jobs) que corren en ejecutores (runners) alojados por GitHub o propios, y pasos (steps) que usan acciones reutilizables o comandos (GitHub, s. f.-c). Los datos sensibles se guardan como secrets, nunca en el código.
+Ejemplo de pipeline de CI para una aplicación Angular:
+name: CI Angular
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test -- --watch=false --browsers=ChromeHeadless
+      - run: npm run build -- --configuration production
+Automatización de build, test y deploy. Un pipeline completo para la empresa tendría tres etapas: (1) build: instalar dependencias y compilar; (2) test: análisis estático (lint), pruebas unitarias y de integración, y reporte de cobertura; (3) deploy: publicar automáticamente en un entorno de pruebas (staging) y, con aprobación, en producción, usando environments protegidos de GitHub. Con las reglas de protección de rama, un PR no puede fusionarse si el pipeline falla; así se cierra la puerta a los errores frecuentes en producción.
+Bloque 5: Inteligencia artificial aplicada al desarrollo
+GitHub Copilot. Es un asistente de programación basado en modelos de lenguaje que se integra en el editor. Ofrece autocompletado de código, chat, explicación y refactorización de código, generación de pruebas y de mensajes de commit, ayuda en la descripción de Pull Requests y modos de agente que ejecutan tareas de varios pasos (GitHub, s. f.-d). Un experimento controlado encontró que los programadores con Copilot completaron una tarea de programación 55,8 % más rápido que el grupo de control (Peng et al., 2023), lo que sugiere un potencial importante de productividad, aunque los resultados dependen del tipo de tarea y de la experiencia del desarrollador.
+Prompt engineering para programadores. La calidad del resultado depende de la calidad de la instrucción. Principios útiles:
+• Dar contexto: lenguaje, framework, versión, archivos relacionados y convenciones del proyecto.
+• Ser específico: indicar entradas, salidas, casos límite y restricciones, en vez de pedir "haz un login".
+• Descomponer: pedir tareas pequeñas y verificables, una a la vez.
+• Dar ejemplos: mostrar el formato esperado o un caso de prueba.
+• Asignar rol y formato de respuesta: por ejemplo, "actúa como revisor de seguridad y responde con una lista de hallazgos".
+• Iterar: refinar el prompt según el resultado, y pedir al modelo que explique su razonamiento.
+• Verificar siempre: el código generado puede contener errores, vulnerabilidades o dependencias inexistentes; debe pasar por pruebas y revisión humana.
+Ejemplo de mal prompt: "Haz un CRUD de productos". Ejemplo de buen prompt: "En Angular 17 con componentes standalone y TypeScript estricto, crea un servicio ProductoService que consuma la API REST /api/productos (GET, POST, PUT, DELETE) con HttpClient, manejo de errores con catchError y tipado con la interfaz Producto {id, nombre, precio, stock}. Incluye pruebas unitarias con Jasmine".
+Relación con SDD. SDD y la IA se refuerzan: la especificación funciona como el "prompt maestro" estructurado y persistente, y la IA acelera la ejecución de cada tarea. Así se reduce el riesgo de generar código que parece correcto pero no responde a lo que el negocio necesita.
+Bloque 6: Calidad de software
+Test Driven Development (TDD). TDD es una práctica en la que la prueba se escribe antes que el código, siguiendo el ciclo Rojo – Verde – Refactorizar: (1) escribir una prueba que falla, (2) escribir el código mínimo para que pase, (3) mejorar el diseño sin romper las pruebas (Beck, 2003). Beneficios: diseño más simple, red de seguridad para cambiar código sin miedo, y pruebas que sirven como documentación ejecutable. Se complementa con la pirámide de pruebas: muchas pruebas unitarias rápidas, un número moderado de pruebas de integración y pocas pruebas de extremo a extremo.
+En Angular, las pruebas unitarias se escriben habitualmente con Jasmine y Karma (o Jest) y las de extremo a extremo con herramientas como Cypress o Playwright.
+Integración de pruebas en pipelines. Las pruebas solo protegen si se ejecutan siempre. Al integrarlas en GitHub Actions: (1) se ejecutan en cada Pull Request; (2) se configuran como verificación obligatoria para fusionar; (3) se publican reportes de cobertura; (4) se establece un umbral mínimo de cobertura; y (5) se añaden análisis de seguridad y de dependencias (por ejemplo, Dependabot y CodeQL). Con SDD, los criterios de aceptación de la especificación se traducen directamente en casos de prueba, lo que une requisitos, pruebas y código.
+Bloque 7: Gestión del proyecto
+• Issues: unidad de trabajo (tarea, error, historia de usuario). Se clasifican con etiquetas (labels), se asignan a responsables y se vinculan con ramas y Pull Requests. Las plantillas estandarizan cómo se reportan errores y se piden funcionalidades.
+• Projects (Kanban): tablero con columnas como Backlog ? Por hacer ? En progreso ? En revisión ? Hecho, con campos personalizados (prioridad, estimación, iteración). Da visibilidad del estado real del trabajo y soluciona la falta de organización del equipo.
+• Milestones: agrupan Issues y Pull Requests en un objetivo con fecha (por ejemplo, "v1.0 – Módulo de inventario") y muestran el porcentaje de avance.
+Las tres herramientas se integran: una tarea de tasks.md generada con Spec Kit se convierte en un Issue, se asigna a una rama, se revisa en un PR y se cierra automáticamente al fusionarse, con la trazabilidad completa desde el requisito hasta el código.
+Análisis crítico
+Qué problema ataca cada práctica. El siguiente cuadro relaciona los problemas de la empresa con las soluciones propuestas:
+Problema de la empresaCausa probableSolución propuestaPérdida de versiones del códigoCopias manuales, ausencia de repositorio centralGit + GitHub, commits frecuentes, etiquetas de versiónFalta de organización en el equipoSin flujo ni asignación clara de trabajoFlujo basado en ramas cortas, Issues, Projects y MilestonesErrores frecuentes en producciónSin pruebas automáticas ni revisiónCode Review obligatorio, TDD, CI con pruebas, protección de ramaFalta de documentación técnicaLa documentación se deja para el finalSDD con Spec Kit, README, registro de decisiones de arquitecturaSin herramientas modernas ni automatizaciónProcesos manualesGitHub Actions (CI/CD), Dependabot, CopilotFortalezas del modelo. Es integral (todas las piezas viven en una misma plataforma), mejora la trazabilidad, automatiza tareas repetitivas y reduce la dependencia de personas clave. Además, su costo de entrada es bajo: GitHub ofrece planes gratuitos y de pago accesibles para equipos pequeños.
+Limitaciones y riesgos.
+1. Resistencia al cambio: los equipos acostumbrados a trabajar sin proceso pueden percibir las revisiones y los pipelines como burocracia. Se mitiga con capacitación, un piloto pequeño y mostrar resultados medibles.
+2. Curva de aprendizaje: Git y YAML de Actions requieren práctica. Se mitiga con guías internas y emparejamiento (pair programming).
+3. Dependencia de un proveedor (vendor lock-in): concentrar todo en GitHub facilita la gestión, pero dificulta migrar. Se mitiga manteniendo Git (estándar abierto) y scripts de build independientes de la plataforma.
+4. Sobreconfianza en la IA: el código generado puede ser incorrecto, inseguro o violar licencias. La IA no sustituye el criterio ni la revisión humana; las pruebas y el Code Review siguen siendo obligatorios.
+5. Privacidad y propiedad intelectual: debe definirse qué código puede enviarse a servicios de IA, y configurar las opciones de privacidad del plan contratado.
+6. Madurez de SDD: es un enfoque reciente y las herramientas evolucionan rápido. Puede resultar pesado para cambios triviales (un ajuste de texto no necesita especificación completa) y su valor depende de la calidad de las especificaciones.
+7. Costos y conectividad: las licencias de Copilot y los minutos de Actions tienen un costo recurrente que debe presupuestarse, y se requiere buena conexión a internet.
+Git Flow o Trunk Based en este caso. Dado que la empresa carece de pruebas automáticas, saltar directamente a Trunk Based puro sería riesgoso. Por eso se propone una adopción gradual: primero ramas cortas con PR y CI obligatorio, y luego, con la cobertura de pruebas en aumento, acortar los ciclos e introducir feature flags.
+Propuesta de solución para la empresa
+La propuesta se plantea como un proyecto de transformación en cuatro fases, pensada para una empresa mediana de software o una startup, y aplicable también a un equipo universitario como el de UTMACH.
+Fase 1: Fundamentos (semanas 1–2)
+• Crear una organización en GitHub y migrar los proyectos a repositorios, con equipos y permisos por rol (administrador, mantenedor, desarrollador).
+• Definir la plantilla de repositorio: README.md, CONTRIBUTING.md, .gitignore, plantillas de Issues y de PR, CODEOWNERS.
+• Capacitar al equipo en Git y en el flujo de trabajo elegido, con una sesión práctica.
+• Establecer la convención de nombres de ramas (feature/, fix/) y de mensajes de commit.
+Fase 2: Colaboración y calidad (semanas 3–4)
+• Activar protección de la rama main: prohibido subir directamente, mínimo una aprobación y verificaciones obligatorias.
+• Implementar el tablero Kanban y los Milestones; todo trabajo nace de un Issue.
+• Crear la lista de verificación de Code Review (funcionalidad, pruebas, seguridad, legibilidad, especificación).
+• Introducir TDD en el código nuevo y definir una cobertura mínima inicial (por ejemplo, 60 %) que se incremente de forma gradual.
+Fase 3: Automatización DevOps (semanas 5–6)
+• Pipeline de CI en GitHub Actions: instalación, lint, pruebas y build en cada PR.
+• Pipeline de CD: despliegue automático a staging al fusionar a main y despliegue a producción con aprobación manual mediante environments.
+• Gestión de secretos con GitHub Secrets; activar Dependabot y CodeQL para dependencias y vulnerabilidades.
+• Publicar la medición de las cuatro métricas DORA para evaluar la mejora.
+Fase 4: SDD e inteligencia artificial (semanas 7–8)
+• Adoptar Spec Kit en un proyecto piloto: constitución del proyecto, especificación, plan, tareas e implementación.
+• Licenciar GitHub Copilot para el equipo, con una guía interna de uso responsable: qué se puede compartir, cómo redactar prompts, y la regla de que todo código generado se revisa y se prueba.
+• Almacenar las especificaciones en el repositorio (/specs) y revisarlas mediante PR igual que el código.
+• Evaluar resultados del piloto y extender el modelo al resto de proyectos.
+Flujo de trabajo propuesto
+1. Se crea un Issue a partir de una historia de usuario o tarea de la especificación.
+2. Se crea una rama feature/<id>-<descripcion> desde main.
+3. Se desarrolla con TDD y apoyo de Copilot, con commits pequeños siguiendo la convención.
+4. Se abre un Pull Request que enlaza el Issue; GitHub Actions ejecuta lint, pruebas y build.
+5. Un compañero hace Code Review; se corrige hasta obtener la aprobación.
+6. Se fusiona a main (squash merge), lo que dispara el despliegue a staging.
+7. Tras la validación, se crea una etiqueta de versión y se despliega a producción con aprobación.
+Indicadores de éxito
+IndicadorMeta sugeridaCambios que llegan a main mediante PR revisado100 %PR con pipeline en verde antes de fusionar100 %Cobertura de pruebasAumentar de forma sostenida por iteraciónIncidentes en producción por releaseReducción respecto de la línea baseFuncionalidades con especificación documentada100 % de los proyectos nuevosFrecuencia de despliegue y tiempo de entrega de cambiosMejora medible trimestre a trimestreLas metas numéricas deben calibrarse con una línea base medida en el primer mes, porque no se dispone de datos actuales de la empresa.
+Aplicación en el contexto ecuatoriano
+En una empresa o institución local, las principales consideraciones son: presupuesto (priorizar planes gratuitos o de bajo costo y escalar según resultados), conectividad (usar runners alojados por GitHub y repositorios ligeros), capacitación del personal (talleres internos y mentoría entre pares) y cumplimiento de la normativa de protección de datos personales, en particular al manejar bases de datos con información de usuarios y al decidir qué código o datos se comparten con servicios de IA.
+Actividad práctica realizada
+Para demostrar la propuesta se desarrolló un proyecto simulado que aplica el modelo. (Completar con los datos reales de su práctica.):
+• Repositorio: [enlace al repositorio en GitHub]
+• Sistema: [nombre y descripción breve, por ejemplo, "Sistema de gestión de inventario"] con frontend en Angular y base de datos [PostgreSQL / MySQL / SQLite / Firebase].
+• Especificaciones (SDD): carpeta /specs con constitución, spec.md, plan.md y tasks.md, generados con GitHub Spec Kit.
+• Control de versiones: ramas main y feature/*, con [n] commits que siguen la convención acordada.
+• Pull Requests: [n] PR con revisión cruzada entre los integrantes (enlaces o capturas).
+• Pipeline: archivo .github/workflows/ci.yml que ejecuta instalación, lint, pruebas y build (captura de una ejecución exitosa).
+• Gestión: Issues, tablero Kanban y Milestone creados para el proyecto.
+• Uso de IA: descripción de cómo se empleó Copilot y qué se corrigió del código generado.
+Reflexión final
+¿Qué problema resuelve Git en el desarrollo real? Git resuelve la pérdida y la sobrescritura de trabajo. Mantiene un historial completo y recuperable de cada cambio, permite que varias personas trabajen en paralelo mediante ramas y facilita la auditoría de quién cambió qué y por qué. Sin Git, la colaboración depende de copias manuales de archivos, propensas al error.
+¿Por qué DevOps es importante en la actualidad? Porque el software se actualiza continuamente y los usuarios esperan cambios rápidos y confiables. DevOps automatiza la compilación, las pruebas y el despliegue, reduce los errores humanos y acorta el tiempo entre una idea y su uso real; la evidencia sugiere que entregar con rapidez y con estabilidad no son objetivos opuestos (Forsgren et al., 2018).
+¿Cómo la IA está cambiando la programación? La IA desplaza parte del esfuerzo desde escribir código línea por línea hacia describir con precisión lo que se quiere, revisar lo generado y verificarlo con pruebas. Acelera tareas repetitivas y de aprendizaje (Peng et al., 2023), pero aumenta la importancia de las competencias de diseño, especificación, pensamiento crítico y revisión. SDD es una respuesta a ese cambio: si la IA escribe más código, el valor está en especificar bien.
+¿Qué herramienta fue más útil y por qué? (Respuesta a completar con la experiencia del grupo. Sugerencia de argumento: GitHub Actions, porque convierte la calidad en algo automático y objetivo, o Spec Kit, porque obliga a pensar y documentar antes de programar; indiquen un ejemplo concreto de la práctica que lo demuestre.)
+Conclusiones
+1. Los cinco problemas de la empresa tienen un origen común: la falta de un proceso definido y automatizado. No se resuelven con una sola herramienta, sino con un modelo coherente que combine control de versiones, colaboración, calidad, automatización y documentación.
+2. Git y GitHub aportan la base de trazabilidad y organización; los Pull Requests con Code Review y la protección de ramas convierten la calidad en una condición de ingreso del código, no en una revisión final.
+3. GitHub Actions permite que la integración continua y el despliegue sean repetibles y objetivos, lo que reduce los errores en producción cuando se combina con pruebas automáticas y TDD.
+4. Spec Driven Development, apoyado en GitHub Spec Kit, resuelve la falta de documentación al convertir la especificación en el eje del desarrollo, y encauza el uso de la IA hacia resultados alineados con los requisitos reales.
+5. GitHub Copilot puede aumentar la productividad, pero su uso debe ser responsable: verificar, probar y revisar todo el código generado, y proteger la propiedad intelectual y los datos.
+6. La adopción debe ser gradual, medida con indicadores y acompañada de capacitación, porque el principal desafío no es técnico sino cultural.
+7. Como ingenieros, el aprendizaje clave es que las herramientas no son el fin: lo relevante es construir un sistema de trabajo en el que la calidad, la colaboración y la documentación ocurran de manera natural en cada cambio.
+Referencias
+Bacchelli, A., y Bird, C. (2013). Expectations, outcomes, and challenges of modern code review. En 2013 35th International Conference on Software Engineering (ICSE) (pp. 712–721). IEEE. https://doi.org/10.1109/ICSE.2013.6606617
+Beck, K. (2003). Test-driven development: By example. Addison-Wesley.
+Chacon, S., y Straub, B. (2014). Pro Git (2.ª ed.). Apress. https://git-scm.com/book
+Driessen, V. (2010, 5 de enero). A successful Git branching model. nvie.com. https://nvie.com/posts/a-successful-git-branching-model/
+Forsgren, N., Humble, J., y Kim, G. (2018). Accelerate: The science of lean software and DevOps: Building and scaling high performing technology organizations. IT Revolution Press.
+Fowler, M. (2006, 1 de mayo). Continuous integration. https://martinfowler.com/articles/continuousIntegration.html
+GitHub. (s. f.-a). GitHub Docs. https://docs.github.com
+GitHub. (s. f.-b). Spec Kit [Repositorio de software]. GitHub. https://github.com/github/spec-kit
+GitHub. (s. f.-c). Understanding GitHub Actions. GitHub Docs. https://docs.github.com/actions
+GitHub. (s. f.-d). GitHub Copilot documentation. GitHub Docs. https://docs.github.com/copilot
+Hammant, P. (s. f.). Trunk based development. https://trunkbaseddevelopment.com
+Humble, J., y Farley, D. (2010). Continuous delivery: Reliable software releases through build, test, and deployment automation. Addison-Wesley.
+Peng, S., Kalliamvakou, E., Cihon, P., y Demirer, M. (2023). The impact of AI on developer productivity: Evidence from GitHub Copilot. arXiv. https://doi.org/10.48550/arXiv.2302.06590
+Spec Driven AI. (s. f.). Spec driven development. https://specdriven.ai/
