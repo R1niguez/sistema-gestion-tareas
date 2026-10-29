@@ -19,9 +19,10 @@
 ## Estándares técnicos
 
 - Node.js 20 o superior y PostgreSQL 14 o superior.
-- TypeScript estricto en Angular.
+- TypeScript estricto en NestJS y JavaScript modular en el frontend.
+- HTML semántico y Tailwind CSS para la interfaz responsive.
 - Consultas PostgreSQL parametrizadas.
-- Estados de tarea limitados a `pendiente`, `en progreso` y `completada`.
+- Categorías de producto limitadas a `arduino`, `esp32` y `modulos`.
 - No se aceptan errores silenciosos ni respuestas de éxito para operaciones
   fallidas.
 
