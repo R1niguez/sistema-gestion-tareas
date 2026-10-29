@@ -110,11 +110,21 @@ function bindEvents() {
   document.querySelector('[data-action="cart"]')?.addEventListener('click', checkout);
 }
 
-function navigate(view, category = '') {
+async function navigate(view, category = '') {
   state.category = category || '';
   state.view = view === 'category' ? 'category' : view === 'admin' && state.admin ? 'admin' : view;
   state.editingId = null;
-  if (state.view === 'category' || state.view === 'home') loadProducts(); else render();
+  if (state.view === 'admin') {
+    state.category = '';
+    state.products = await request('/admin/products');
+    render();
+    return;
+  }
+  if (state.view === 'category' || state.view === 'home') {
+    await loadProducts();
+    return;
+  }
+  render();
 }
 
 async function login(event) {
