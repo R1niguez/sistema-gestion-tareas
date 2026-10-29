@@ -14,4 +14,5 @@ test('Voltio Lab expone catálogo, carrito y acceso administrativo', () => {
   assert.match(source, /data-product-form/);
   assert.match(source, /¿Está seguro de eliminar/);
   assert.match(source, /data-edit/);
+  assert.doesNotMatch(source, /Mi cuenta/);
 });

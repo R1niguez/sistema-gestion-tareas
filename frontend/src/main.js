@@ -46,7 +46,7 @@ function render() {
     ...categories.map((item) => `<button data-category="${item.key}" class="${state.category === item.key ? 'nav-active' : ''}">${item.label}</button>`),
     `<button data-view="contact" class="${state.view === 'contact' ? 'nav-active' : ''}">Contacto</button>`,
     state.admin ? `<button data-view="admin" class="${state.view === 'admin' ? 'nav-active' : ''}">Admin</button>` : '',
-    `<button data-view="login" class="${state.view === 'login' ? 'nav-active' : ''}">${state.admin ? 'Mi cuenta' : 'Iniciar sesión'}</button>`,
+    state.admin ? '' : `<button data-view="login" class="${state.view === 'login' ? 'nav-active' : ''}">Iniciar sesión</button>`,
   ].join('');
 
   document.querySelector('#app').innerHTML = `
