@@ -6,8 +6,9 @@ const state = {
   category: '',
   cart: JSON.parse(localStorage.getItem('voltio-cart') || '[]'),
   admin: false,
-  token: '',
-  view: 'home',
+  token: localStorage.getItem('voltio-admin-token') || '',
+  view: localStorage.getItem('voltio-admin-token') ? 'admin' : 'home',
+  admin: Boolean(localStorage.getItem('voltio-admin-token')),
   editingId: null,
 };
 const categories = [
@@ -106,7 +107,7 @@ function bindEvents() {
   document.querySelector('[data-login-form]')?.addEventListener('submit', login);
   document.querySelector('[data-contact-form]')?.addEventListener('submit', (event) => { event.preventDefault(); window.alert('Mensaje enviado. Gracias por contactar a Voltio Lab.'); event.currentTarget.reset(); });
   document.querySelector('[data-action="cancel-edit"]')?.addEventListener('click', () => { state.editingId = null; render(); });
-  document.querySelector('[data-action="logout"]')?.addEventListener('click', () => { state.admin = false; state.token = ''; state.view = 'home'; state.category = ''; loadProducts(); });
+  document.querySelector('[data-action="logout"]')?.addEventListener('click', () => { state.admin = false; state.token = ''; state.view = 'home'; state.category = ''; localStorage.removeItem('voltio-admin-token'); loadProducts(); });
   document.querySelector('[data-action="cart"]')?.addEventListener('click', checkout);
 }
 
@@ -130,7 +131,7 @@ async function navigate(view, category = '') {
 async function login(event) {
   event.preventDefault();
   const form = new FormData(event.currentTarget);
-  try { const result = await request('/login', { method: 'POST', body: JSON.stringify({ email: form.get('email'), password: form.get('password') }) }); state.token = result.token; state.admin = true; state.view = 'admin'; state.products = await request('/admin/products'); render(); } catch (error) { window.alert(error.message); }
+  try { const result = await request('/login', { method: 'POST', body: JSON.stringify({ email: form.get('email'), password: form.get('password') }) }); state.token = result.token; localStorage.setItem('voltio-admin-token', result.token); state.admin = true; state.view = 'admin'; state.products = await request('/admin/products'); render(); } catch (error) { window.alert(error.message); }
 }
 
 async function saveProduct(event) {
@@ -156,4 +157,22 @@ async function checkout() {
   try { await request('/checkout', { method: 'POST', body: JSON.stringify({ customerName, customerEmail, items: state.cart }) }); state.cart = []; localStorage.removeItem('voltio-cart'); render(); window.alert('Pedido registrado. ¡Gracias por crear con Voltio Lab!'); } catch (error) { window.alert(error.message); }
 }
 
-loadProducts().catch((error) => { document.querySelector('#app').innerHTML = `<p class="p-10 text-red-600">No se pudo conectar con la API: ${error.message}</p>`; });
+async function initialize() {
+  try {
+    if (state.admin) {
+      state.products = await request('/admin/products');
+      render();
+      return;
+    }
+    await loadProducts();
+  } catch (error) {
+    state.admin = false;
+    state.token = '';
+    localStorage.removeItem('voltio-admin-token');
+    await loadProducts().catch(() => {
+      document.querySelector('#app').innerHTML = `<p class="p-10 text-red-600">No se pudo conectar con la API: ${error.message}</p>`;
+    });
+  }
+}
+
+initialize();

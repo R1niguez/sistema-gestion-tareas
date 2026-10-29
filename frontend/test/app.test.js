@@ -16,4 +16,6 @@ test('Voltio Lab expone catálogo, carrito y acceso administrativo', () => {
   assert.match(source, /data-edit/);
   assert.doesNotMatch(source, /Mi cuenta/);
   assert.match(source, /state\.products = await request\('\/admin\/products'\)/);
+  assert.match(source, /voltio-admin-token/);
+  assert.match(source, /async function initialize/);
 });

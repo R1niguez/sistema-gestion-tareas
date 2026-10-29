@@ -84,10 +84,25 @@ export class AppService {
 
   async createProduct(input: ProductInput) {
     this.validateProduct(input);
-    return (await this.db.query(
-      'INSERT INTO products (category,name,price,description,image,active) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-      [input.category, input.name.trim(), input.price, input.description.trim(), input.image, input.active ?? true],
-    )).rows[0];
+    return this.db.transaction(async (client) => {
+      await client.query('SELECT pg_advisory_xact_lock($1)', [738291]);
+      const result = await client.query(
+        `WITH next_id AS (
+          SELECT candidate AS id
+          FROM generate_series(1, (SELECT COALESCE(MAX(id), 0) + 1 FROM products)) AS candidate
+          WHERE NOT EXISTS (SELECT 1 FROM products WHERE products.id = candidate)
+          ORDER BY candidate
+          LIMIT 1
+        )
+        INSERT INTO products (id,category,name,price,description,image,active)
+        SELECT id,$1,$2,$3,$4,$5,$6 FROM next_id RETURNING *`,
+        [input.category, input.name.trim(), input.price, input.description.trim(), input.image, input.active ?? true],
+      );
+      await client.query(
+        `SELECT setval(pg_get_serial_sequence('products', 'id'), COALESCE((SELECT MAX(id) FROM products), 1), true)`,
+      );
+      return result.rows[0];
+    });
   }
 
   async updateProduct(id: number, input: ProductInput) {

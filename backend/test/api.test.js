@@ -13,3 +13,8 @@ test('la aplicación usa PostgreSQL mediante DATABASE_URL', () => {
   assert.match(fs.readFileSync('src/database.service.ts', 'utf8'), /DATABASE_URL/);
   assert.match(fs.readFileSync('database.sql', 'utf8'), /CREATE TABLE IF NOT EXISTS products/);
 });
+
+test('la creación de productos reutiliza el primer identificador disponible', () => {
+  assert.match(fs.readFileSync('src/app.service.ts', 'utf8'), /generate_series/);
+  assert.match(fs.readFileSync('src/app.service.ts', 'utf8'), /pg_advisory_xact_lock/);
+});
