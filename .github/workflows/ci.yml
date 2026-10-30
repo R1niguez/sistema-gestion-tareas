@@ -33,7 +33,7 @@ jobs:
       - name: Ejecutar pruebas del backend
         run: npm test
 
-  angular-test:
+  build-test:
     runs-on: ubuntu-latest
     defaults:
       run:
