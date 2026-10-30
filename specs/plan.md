@@ -2,8 +2,8 @@
 
 ## Arquitectura
 
-1. **Frontend:** HTML semántico y JavaScript modular servido por Vite, con
-   Tailwind CSS para la composición visual responsive.
+1. **Frontend:** Angular standalone con TypeScript, `HttpClient` y plantillas
+   HTML, con Tailwind CSS para la composición visual responsive.
 2. **Backend:** NestJS con controlador REST, servicio de dominio y un servicio
    de conexión PostgreSQL.
 3. **Persistencia:** PostgreSQL con tablas de usuarios, productos, órdenes,

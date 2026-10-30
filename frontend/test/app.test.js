@@ -2,21 +2,19 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-test('Voltio Lab expone catálogo, carrito y acceso administrativo', () => {
-  const source = fs.readFileSync('src/main.js', 'utf8');
-  assert.match(source, /Voltio Lab|voltiolab/i);
-  assert.match(source, /addToCart/);
-  assert.match(source, /checkout/);
-  assert.match(source, /admin/);
-  assert.match(source, /data-login-form/);
-  assert.match(source, /state\.admin \?/);
-  assert.match(source, /contactView/);
-  assert.match(source, /data-product-form/);
-  assert.match(source, /¿Está seguro de eliminar/);
-  assert.match(source, /data-edit/);
-  assert.match(source, /String\(item\.id\) === String\(state\.editingId\)/);
-  assert.doesNotMatch(source, /Mi cuenta/);
-  assert.match(source, /state\.products = await request\('\/admin\/products'\)/);
-  assert.match(source, /voltio-admin-token/);
-  assert.match(source, /async function initialize/);
+test('Voltio Lab conserva sus flujos principales en Angular standalone', () => {
+  const component = fs.readFileSync('src/app.component.ts', 'utf8');
+  const template = fs.readFileSync('src/app.component.html', 'utf8');
+  const service = fs.readFileSync('src/product.service.ts', 'utf8');
+  assert.match(component, /standalone: true/);
+  assert.match(component, /addToCart/);
+  assert.match(component, /checkout/);
+  assert.match(component, /admin/);
+  assert.match(component, /voltio-admin-token/);
+  assert.match(component, /String\(item\.id\) === String\(this\.editingId\)/);
+  assert.match(template, /Iniciar sesión/);
+  assert.match(component, /¿Está seguro de eliminar/);
+  assert.doesNotMatch(template, /Mi cuenta/);
+  assert.match(service, /HttpClient/);
+  assert.match(service, /admin\/products/);
 });

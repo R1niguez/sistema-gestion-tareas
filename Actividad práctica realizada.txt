@@ -2,7 +2,7 @@ Actividad práctica realizada
 
 Se desarrolló Voltio Lab, una tienda web de componentes electrónicos dirigida
 a makers, estudiantes y personas interesadas en el prototipado. La interfaz se
-implementó con HTML, JavaScript, Vite y Tailwind CSS, tomando como referencia
+implementó con Angular standalone, TypeScript y Tailwind CSS, tomando como referencia
 un diseño editorial de alto contraste con navegación, catálogo filtrable,
 carrito y acceso administrativo.
 
@@ -23,6 +23,6 @@ rama main.
 
 La calidad se automatizó con GitHub Actions en Ubuntu y Node.js 20. El pipeline
 instala dependencias con npm ci, ejecuta las pruebas del backend NestJS, compila
-la API, ejecuta las pruebas y el lint del frontend y genera el build de Vite.
+la API, ejecuta las pruebas y el lint del frontend y genera el build de Angular.
 Este flujo mantiene una validación reproducible antes de aceptar cambios en
 main y deja evidencia de la colaboración, la revisión y la entrega continua.

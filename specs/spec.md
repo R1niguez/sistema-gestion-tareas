@@ -56,7 +56,7 @@ descripción, **para** elegir componentes para mi proyecto.
 
 ## 3. Requisitos funcionales
 
-- **RF-01:** La interfaz HTML debe presentar el hero, navegación, catálogo y
+- **RF-01:** La aplicación Angular debe presentar el hero, navegación, catálogo y
   filtros responsive con Tailwind CSS.
 - **RF-02:** La API NestJS debe exponer `GET /api/products` con filtro opcional.
 - **RF-03:** La API debe autenticar mediante `POST /api/login`.
@@ -93,6 +93,6 @@ descripción, **para** elegir componentes para mi proyecto.
 
 | Requisito | Evidencia |
 |---|---|
-| RF-01 | `frontend/src/main.js` y Tailwind |
+| RF-01 | `frontend/src/app.component.ts`, `frontend/src/app.component.html` y Tailwind |
 | RF-02 a RF-07 | `backend/src`, `backend/database.sql` y pruebas |
 | RF-08 | `.github/workflows/ci.yml` |

@@ -4,17 +4,24 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint src --ext .js",
+    "dev": "ng serve",
+    "build": "ng build",
+    "lint": "node --test test/lint.test.js",
     "test": "node --test test/app.test.js"
   },
   "dependencies": {
-    "vite": "^6.1.0"
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular/cli": "^20.3.0",
+    "@angular-devkit/build-angular": "^20.3.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.39.1",
+    "typescript": "~5.9.2",
     "tailwindcss": "^3.4.17"
   }
 }

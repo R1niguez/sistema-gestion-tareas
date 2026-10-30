@@ -33,7 +33,7 @@ jobs:
       - name: Ejecutar pruebas del backend
         run: npm test
 
-  build-test:
+  angular-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -58,5 +58,5 @@ jobs:
       - name: Ejecutar pruebas unitarias
         run: npm test
 
-      - name: Compilar aplicación
+      - name: Compilar aplicación Angular
         run: npm run build

@@ -1,8 +1,8 @@
 # Voltio Lab
 
 Tienda web de hardware para crear: Arduino, ESP32 y módulos para makers y
-estudiantes. El frontend usa HTML, JavaScript, Vite y Tailwind CSS. La API usa
-NestJS y PostgreSQL.
+estudiantes. El frontend usa Angular standalone, TypeScript y Tailwind CSS. La
+API usa NestJS y PostgreSQL.
 
 ## Requisitos
 
@@ -56,11 +56,13 @@ cd frontend
 npm run dev
 ```
 
-La tienda queda en `http://localhost:5173` y la API en
+La tienda queda en `http://localhost:4200` y la API en
 `http://localhost:3001`.
 
 ## Funcionalidades
 
+- Aplicación Angular standalone con navegación por Inicio, categorías, Contacto,
+  login y Admin.
 - Catálogo filtrable por Arduino, ESP32 y módulos.
 - Carrito persistente en el navegador.
 - Checkout que registra órdenes, artículos y pago pendiente.
