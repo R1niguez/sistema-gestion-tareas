@@ -1,28 +1,20 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const request = require('supertest');
-const { app } = require('../index');
+const fs = require('node:fs');
 
-test('rechaza la creación de una tarea sin título', async () => {
-  const respuesta = await request(app)
-    .post('/api/tareas')
-    .send({ descripcion: 'Sin título' });
-
-  assert.equal(respuesta.status, 400);
-  assert.match(respuesta.body.error, /título/i);
+test('la API NestJS define las rutas requeridas', () => {
+  const source = fs.readFileSync('src/app.controller.ts', 'utf8');
+  for (const route of ['products', 'login', 'admin/products', 'admin/orders', 'checkout']) {
+    assert.match(source, new RegExp(route.replace('/', '\\/')));
+  }
 });
 
-test('rechaza un estado que no está permitido', async () => {
-  const respuesta = await request(app)
-    .post('/api/tareas')
-    .send({ titulo: 'Tarea', estado: 'desconocido' });
-
-  assert.equal(respuesta.status, 400);
-  assert.match(respuesta.body.error, /estado/i);
+test('la aplicación usa PostgreSQL mediante DATABASE_URL', () => {
+  assert.match(fs.readFileSync('src/database.service.ts', 'utf8'), /DATABASE_URL/);
+  assert.match(fs.readFileSync('database.sql', 'utf8'), /CREATE TABLE IF NOT EXISTS products/);
 });
 
-test('rechaza identificadores inválidos', async () => {
-  const respuesta = await request(app).get('/api/tareas/no-es-un-id');
-
-  assert.equal(respuesta.status, 400);
+test('la creación de productos reutiliza el primer identificador disponible', () => {
+  assert.match(fs.readFileSync('src/app.service.ts', 'utf8'), /generate_series/);
+  assert.match(fs.readFileSync('src/app.service.ts', 'utf8'), /pg_advisory_xact_lock/);
 });

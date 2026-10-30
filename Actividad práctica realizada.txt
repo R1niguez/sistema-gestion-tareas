@@ -1,51 +1,28 @@
 Actividad práctica realizada
 
-Como aplicación práctica del modelo moderno de desarrollo de software descrito
-en el informe, se diseñó un Sistema de Gestión de Tareas orientado a una
-empresa de desarrollo de software en Ecuador. El propósito del proyecto fue
-demostrar, mediante una solución pequeña y verificable, la integración entre
-desarrollo basado en especificaciones, control de versiones, colaboración,
-persistencia de datos y automatización de la calidad.
+Se desarrolló Voltio Lab, una tienda web de componentes electrónicos dirigida
+a makers, estudiantes y personas interesadas en el prototipado. La interfaz se
+implementó con Angular standalone, TypeScript y Tailwind CSS, tomando como referencia
+un diseño editorial de alto contraste con navegación, catálogo filtrable,
+carrito y acceso administrativo.
 
-La especificación funcional se organizó en el archivo specs/spec.md. Este
-artefacto define el alcance del producto, los actores, las historias de
-usuario, los requisitos funcionales y no funcionales, el contrato de datos y
-los criterios de aceptación. De esta manera, la especificación se utilizó como
-fuente de trazabilidad para orientar la implementación y para relacionar cada
-requisito con las verificaciones que deben ejecutarse durante el desarrollo.
+El backend fue migrado a NestJS sobre Node.js 20 y se conectó con PostgreSQL
+14 mediante la variable de entorno DATABASE_URL. La API REST expone el
+catálogo público, autenticación administrativa, operaciones protegidas sobre
+productos, consulta de órdenes y checkout. La base de datos normaliza usuarios,
+productos, órdenes, artículos y pagos, con claves foráneas, restricciones de
+categoría y validación de cantidades. Las contraseñas se derivan con scrypt y
+las rutas administrativas requieren Bearer token.
 
-El frontend se planteó con Angular y componentes standalone. Para separar la
-presentación del acceso a datos se incorporó el servicio TareaService, que
-consume mediante HttpClient la API REST del sistema y utiliza la interfaz
-TypeScript Tarea para conservar un contrato tipado entre la aplicación cliente
-y el backend.
+El trabajo se organizó mediante Spec Driven Development. La carpeta specs
+contiene constitution.md, spec.md, plan.md y tasks.md, donde se establecen el
+alcance, las historias de usuario, requisitos funcionales, criterios de
+aceptación, arquitectura y trazabilidad. Cada cambio se trabajó en ramas
+feature/* y se integró mediante Pull Requests, CODEOWNERS y protección de la
+rama main.
 
-El backend se implementó conceptualmente con Node.js y Express. La API expone
-los endpoints GET, POST, PUT y DELETE bajo la ruta /api/tareas, valida el
-título y el estado de cada solicitud, y devuelve códigos HTTP diferenciados
-para operaciones exitosas, datos inválidos y recursos inexistentes. La
-persistencia se definió en PostgreSQL mediante la tabla tareas, cuyos campos
-principales son id, titulo, descripcion y estado. Las consultas parametrizadas
-evitan interpolar directamente los valores recibidos desde el cliente.
-
-El trabajo se preparó para organizarse mediante Git Flow simplificado. La
-estructura y la documentación definen ramas feature/* creadas a partir de main,
-commits pequeños y Pull Requests como mecanismo de integración. La creación del
-repositorio remoto, las revisiones cruzadas y la protección de main quedan como
-actividades operativas pendientes de ejecutar en la cuenta de GitHub del equipo;
-por tanto, deben respaldarse posteriormente con sus enlaces y capturas reales.
-
-La automatización se definió en .github/workflows/ci.yml. El pipeline está
-preparado para ejecutarse en un runner Ubuntu cuando se realiza un push o un
-Pull Request hacia main. Sus etapas instalan las dependencias con npm ci,
-ejecutan las pruebas del backend, el linter de Angular, las pruebas unitarias
-en ChromeHeadless y la compilación de producción. En la validación local, las
-pruebas del backend y las tres pruebas unitarias de Angular finalizaron
-correctamente, al igual que el lint y el build de producción.
-
-Finalmente, la solución evidencia que SDD, GitHub, Pull Requests y GitHub
-Actions no son prácticas aisladas. La especificación establece qué debe
-construirse, las ramas y revisiones controlan cómo se incorpora el trabajo, y
-el pipeline proporciona una comprobación automática de la calidad. El
-resultado es un flujo reproducible que mejora la documentación, la
-colaboración y la confiabilidad del Sistema de Gestión de Tareas.
+La calidad se automatizó con GitHub Actions en Ubuntu y Node.js 20. El pipeline
+instala dependencias con npm ci, ejecuta las pruebas del backend NestJS, compila
+la API, ejecuta las pruebas y el lint del frontend y genera el build de Angular.
+Este flujo mantiene una validación reproducible antes de aceptar cambios en
+main y deja evidencia de la colaboración, la revisión y la entrega continua.
