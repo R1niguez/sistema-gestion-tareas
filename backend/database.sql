@@ -1,16 +1,45 @@
--- Ejecutar este archivo con psql como el usuario postgres:
--- psql -U postgres -f backend/database.sql
--- La contraseña local indicada para el desarrollo es admin123.
+CREATE DATABASE voltiolabDB;
+\connect voltiolabDB;
 
-CREATE DATABASE sistema_tareas;
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  salt TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'admin'
+);
 
-\connect sistema_tareas
+CREATE TABLE IF NOT EXISTS products (
+  id BIGSERIAL PRIMARY KEY,
+  category TEXT NOT NULL CHECK (category IN ('arduino', 'esp32', 'modulos')),
+  name TEXT NOT NULL,
+  price NUMERIC(10, 2) NOT NULL CHECK (price >= 0),
+  description TEXT NOT NULL,
+  image TEXT NOT NULL,
+  active BOOLEAN NOT NULL DEFAULT TRUE
+);
 
-CREATE TABLE IF NOT EXISTS tareas (
-    id SERIAL PRIMARY KEY,
-    titulo VARCHAR(150) NOT NULL CHECK (char_length(btrim(titulo)) BETWEEN 1 AND 150),
-    descripcion TEXT NOT NULL DEFAULT '',
-    estado VARCHAR(20) NOT NULL DEFAULT 'pendiente'
-        CHECK (estado IN ('pendiente', 'en progreso', 'completada')),
-    creado_en TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGSERIAL PRIMARY KEY,
+  customer_name TEXT NOT NULL,
+  customer_email TEXT NOT NULL,
+  total NUMERIC(10, 2) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL REFERENCES orders(id),
+  product_id BIGINT REFERENCES products(id) ON DELETE SET NULL,
+  product_name TEXT NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity > 0),
+  unit_price NUMERIC(10, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL UNIQUE REFERENCES orders(id),
+  method TEXT NOT NULL,
+  status TEXT NOT NULL,
+  amount NUMERIC(10, 2) NOT NULL
 );
